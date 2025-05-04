@@ -1,0 +1,125 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+# Sigmoid Function
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+print("Sigmoid(5):", sigmoid(5))  # Output: ~0.993
+
+def plot_sigmoid():
+    x = np.linspace(-10, 10, 100)
+    y = 1 / (1 + np.exp(-x))
+    plt.plot(x, y)
+    plt.xlabel('Input')
+    plt.ylabel('Sigmoid Output')
+    plt.title('Sigmoid Activation Function')
+    plt.grid(True)
+    plt.show()
+
+plot_sigmoid()
+
+# Tanh Function
+def tanh(x):
+    return (math.exp(x) - math.exp(-x)) / (math.exp(x) + math.exp(-x))
+
+print("Tanh(90):", tanh(90))  # Output: ~1.0
+
+def plot_tanh():
+    x = np.linspace(-10, 10, 100)
+    y = np.tanh(x)
+    plt.plot(x, y)
+    plt.title("Hyperbolic Tangent (tanh) Activation Function")
+    plt.xlabel("x")
+    plt.ylabel("tanh(x)")
+    plt.grid(True)
+    plt.show()
+
+plot_tanh()
+
+# Softmax Function
+def softmax(x):
+    e_x = np.exp(x - np.max(x))  # for numerical stability
+    return e_x / np.sum(e_x)
+
+x_vals = np.array([1, 2, 3])
+print("Softmax:", softmax(x_vals))  # Output: [0.090, 0.244, 0.665]
+
+def plot_softmax(probabilities, class_labels):
+    plt.bar(class_labels, probabilities)
+    plt.xlabel("Class")
+    plt.ylabel("Probability")
+    plt.title("Softmax Output")
+    plt.show()
+
+plot_softmax(np.array([0.2, 0.3, 0.5]), ["Class A", "Class B", "Class C"])
+
+# ReLU Function
+def plot_relu():
+    x = np.linspace(-10, 10, 100)
+    y = np.maximum(0, x)
+    plt.plot(x, y)
+    plt.title("ReLU Activation Function")
+    plt.xlabel("x")
+    plt.ylabel("ReLU(x)")
+    plt.grid(True)
+    plt.show()
+
+plot_relu()
+
+# Leaky ReLU Function
+def leaky_relu(x, alpha=0.01):
+    return np.where(x > 0, x, alpha * x)
+
+def plot_leaky_relu():
+    x = np.linspace(-10, 10, 400)
+    y = leaky_relu(x)
+    plt.plot(x, y, label="Leaky ReLU (α=0.01)", color='teal')
+    plt.title("Leaky ReLU Activation Function")
+    plt.xlabel("x")
+    plt.ylabel("Leaky ReLU(x)")
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+plot_leaky_relu()
+
+
+
+
+
+# Define Loss Functions
+def mse_loss(y_true, y_pred):
+    return (y_true - y_pred) ** 2
+
+def mae_loss(y_true, y_pred):
+    return np.abs(y_true - y_pred)
+
+def huber_loss(y_true, y_pred, delta=1.0):
+    error = y_true - y_pred
+    is_small_error = np.abs(error) <= delta
+    squared_loss = 0.5 * (error ** 2)
+    linear_loss = delta * (np.abs(error) - 0.5 * delta)
+    return np.where(is_small_error, squared_loss, linear_loss)
+
+# Generate values for prediction error
+x = np.linspace(-10, 10, 400)
+y_true = np.zeros_like(x)
+y_pred = x
+
+# Compute loss values
+mse = mse_loss(y_true, y_pred)
+mae = mae_loss(y_true, y_pred)
+huber = huber_loss(y_true, y_pred, delta=1.0)
+
+# Plot
+plt.plot(x, mse, label="MSE Loss", color='red')
+plt.plot(x, mae, label="MAE Loss", color='green')
+plt.plot(x, huber, label="Huber Loss (δ=1.0)", color='blue')
+plt.title("Common Loss Functions")
+plt.xlabel("Prediction Error")
+plt.ylabel("Loss")
+plt.grid(True)
+plt.legend()
+plt.show()
