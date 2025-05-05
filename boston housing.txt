@@ -19,16 +19,16 @@ regression_data = pd.read_csv('boston_housing.csv')
 print(regression_data.head())
 
 # Scatter plot to visualize data
-plt.scatter(regression_data['Volume'], regression_data['Price'])
-plt.xlabel('Volume')
-plt.ylabel('Price')
-plt.title('Price - Volume Data')
+plt.scatter(regression_data['RM'], regression_data['MEDV'])
+plt.xlabel('RM')
+plt.ylabel('MEDV')
+plt.title('RM - MEDV')
 plt.grid(True)
 plt.show()
 
 # Prepare features and target
-X = regression_data[['Volume']]  # Feature must be 2D
-y = regression_data['Price']
+X = regression_data[['RM']]  # Feature must be 2D
+y = regression_data['MEDV']
 
 # Split data
 X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.20, random_state=42)
@@ -48,8 +48,8 @@ print("R2 Score: %.2f" % r2_score(Y_test, Y_pred))
 # Plot predictions on test data
 plt.scatter(X_test, Y_test, color='blue', label='Actual')
 plt.plot(X_test, Y_pred, color='red', linewidth=2, label='Predicted')
-plt.xlabel("Volume")
-plt.ylabel("Price")
+plt.xlabel("RM")
+plt.ylabel("MEDV")
 plt.title("Linear Regression (Test Set)")
 plt.legend()
 plt.grid(True)
@@ -58,8 +58,8 @@ plt.show()
 # Plot predictions on training data
 plt.scatter(X_train, Y_train, color='red', label='Training Data')
 plt.plot(X_train, simple_linear_regression.predict(X_train), color='blue', label='Model')
-plt.xlabel("Volume")
-plt.ylabel("Price")
+plt.xlabel("RM")
+plt.ylabel("MEDV")
 plt.title("Linear Regression (Training Set)")
 plt.legend()
 plt.grid(True)
